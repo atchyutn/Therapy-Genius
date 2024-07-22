@@ -1,85 +1,114 @@
-import axios from "axios";
+import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
+import * as dotenv from "dotenv";
 
-export default async function handler(req: any, res: any) {
-  if (req.method !== "POST") {
-    res.status(405).json({ message: "Only POST requests are allowed" });
-    return;
-  }
+dotenv.config();
 
-  const { name, age, gender, therapyType, goals } = req.body;
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-  if (!isTherapyRelated(goals)) {
-    res.status(400).json({ message: "Query not related to therapy goals" });
-    return;
-  }
+const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID;
+const POLLING_INTERVAL = 1000; // 1 second
 
+interface RequestBody {
+  name: string;
+  age: number;
+  gender: string;
+  therapyType: string;
+  goals: string[];
+}
+
+export async function POST(req: NextRequest) {
   try {
-    const response = await axios.post(
-      "https://api.openai.com/v1/completions",
-      {
-        model: "text-davinci-003",
-        prompt: generatePrompt(name, age, gender, therapyType, goals),
-        max_tokens: 200,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        },
-      }
-    );
+    const body = await req.json();
+    const validatedBody = validateRequestBody(body);
 
-    res.status(200).json({ activities: response.data.choices[0].text.trim() });
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    const thread = await createThread();
+    await addMessageToThread(thread.id, validatedBody);
+    const run = await runAssistant(thread.id);
+    await waitForRunCompletion(thread.id, run.id);
+    const activities = await retrieveActivities(thread.id);
+
+    await deleteThread(thread.id);
+
+    return NextResponse.json({ activities });
+  } catch (error: any) {
+    console.error("Error:", error.response?.data || error.message);
+    return NextResponse.json(
+      { message: "Internal Server Error", error: error.message },
+      { status: 500 }
+    );
   }
 }
 
-function isTherapyRelated(goals: string[]) {
-  const therapyKeywords = [
-    "therapy",
-    "rehabilitation",
-    "treatment",
-    "exercise",
-    "activity",
-  ];
-  return therapyKeywords.some((keyword) => goals.includes(keyword));
+function validateRequestBody(body: any): RequestBody {
+  const { name, age, gender, therapyType, goals } = body;
+
+  if (!name || typeof name !== "string") {
+    throw new Error("Invalid name");
+  }
+  if (!age || typeof Number(age) !== "number" || age <= 0) {
+    throw new Error("Invalid age");
+  }
+  if (!gender || typeof gender !== "string") {
+    throw new Error("Invalid gender");
+  }
+  if (!therapyType || typeof therapyType !== "string") {
+    throw new Error("Invalid therapyType");
+  }
+  if (!goals || !Array.isArray(goals) || goals.length === 0) {
+    throw new Error("Invalid goals");
+  }
+
+  return { name, age, gender, therapyType, goals };
 }
 
-const formatTemplate = `
-{
-  "Goal": "Goal Description",
-  "Activities": [
-    {
-      "Activity": "Activity Description",
-      "Objective": "Objective of the activity",
-      "Procedure": "Step-by-step procedure",
-      "Task": "Task to be completed"
+async function createThread() {
+  return await openai.beta.threads.create();
+}
+
+async function addMessageToThread(threadId: string, body: RequestBody) {
+  const { name, age, gender, therapyType, goals } = body;
+  await openai.beta.threads.messages.create(threadId, {
+    role: "user",
+    content: `{Name: ${name}, Age: ${age} years, Gender: ${gender}, Therapy Type: ${therapyType}, Goals: ${goals.join(
+      ", "
+    )}}`,
+  });
+}
+
+async function runAssistant(threadId: string) {
+  return await openai.beta.threads.runs.create(threadId, {
+    assistant_id: ASSISTANT_ID,
+  });
+}
+
+async function waitForRunCompletion(threadId: string, runId: string) {
+  let status;
+  do {
+    const statusResponse = await openai.beta.threads.runs.retrieve(
+      threadId,
+      runId
+    );
+    status = statusResponse.status;
+    console.log(`Run status: ${status}`);
+    if (status !== "completed") {
+      await new Promise((resolve) => setTimeout(resolve, POLLING_INTERVAL));
     }
-  ]
+  } while (status !== "completed");
 }
-`;
 
-function generatePrompt(
-  name: string,
-  age: number,
-  gender: string,
-  therapyType: string,
-  goals: string[]
-) {
-  return `Given the following details:
+async function retrieveActivities(threadId: string) {
+  const messagesResponse = await openai.beta.threads.messages.list(threadId);
+  const latestMessage = messagesResponse.data[0];
+  if (latestMessage.content[0].type === "text") {
+    console.log(latestMessage.content[0].text.value);
+    return latestMessage.content[0].text.value;
+  }
+  return {};
+}
 
-Name: ${name}
-Age: ${age} years
-Gender: ${gender}
-Therapy Type: ${therapyType}
-
-Goals:
-${goals}
-
-Suggest therapy activities in JSON format based on the above information. Use the following format:
-
-${formatTemplate}
-
-Please ensure the response is concise and formatted as JSON.`;
+async function deleteThread(threadId: string) {
+  await openai.beta.threads.del(threadId);
 }
