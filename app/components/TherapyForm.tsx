@@ -19,6 +19,7 @@ const TherapyForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setActivities(null);
     e.preventDefault();
     setLoading(true);
 
@@ -174,7 +175,7 @@ const TherapyForm: React.FC = () => {
         <div className="flex-1 pl-4">
           {loading && (
             <>
-              <div className="flex w-auto flex-col gap-4">
+              {/* <div className="flex w-auto flex-col gap-4">
                 <div className="skeleton h-32 w-full"></div>
                 <div className="skeleton h-4 w-28"></div>
                 <div className="skeleton h-4 w-full"></div>
@@ -186,12 +187,12 @@ const TherapyForm: React.FC = () => {
                 <div className="skeleton h-4 w-28"></div>
                 <div className="skeleton h-4 w-full"></div>
                 <div className="skeleton h-4 w-full"></div>
-              </div>
-              {/* <Lottie
+              </div> */}
+              <Lottie
                 animationData={ActivitesLoader}
                 loop={true}
                 className="w-full h-auto max-w-lg"
-              /> */}
+              />
             </>
           )}
           {!loading && !activities && (

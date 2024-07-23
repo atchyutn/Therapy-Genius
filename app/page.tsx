@@ -1,22 +1,43 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import TherapyForm from "./components/TherapyForm";
+import LearnMore from "./components/LearnMore";
 import Lottie from "lottie-react";
 import kidsTherapyAnimation from "../public/AI-therapy.json"; // Adjust the path as needed
-import ActivitesLoader from "../public/activities-loader.json";
+import ActivitesLoader from "../public/hero-animation.json";
+import Footer from "./components/Footer";
 
 const HomePage: React.FC = () => {
+  const learnMoreRef = useRef<HTMLDivElement>(null);
+  const therapyFormRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <GradientBackground>
         <Navbar />
         <div className="container mx-auto px-4 py-12 pt-0">
-          <HeroSection />
+          <HeroSection
+            scrollToLearnMore={() => scrollToSection(learnMoreRef)}
+            scrollToTherapyForm={() => scrollToSection(therapyFormRef)}
+          />
           <div className="mt-16 md:mt-5">
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-lg rounded-lg overflow-hidden"
+              ref={therapyFormRef}
+            >
               <TherapyForm />
             </div>
           </div>
+          <hr className="mt-10 bg-black" />
+          <div ref={learnMoreRef}>
+            <LearnMore />
+          </div>
+          <hr className="mt-10 bg-black" />
+          <Footer />
         </div>
       </GradientBackground>
     </div>
@@ -42,7 +63,9 @@ export const Navbar: React.FC = () => {
     <nav className="bg-opacity-80 backdrop-blur-md shadow-md sticky">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold text-indigo-700">AI Therapy</div>
+          <div className="text-2xl font-bold text-indigo-700">
+            Report Genius
+          </div>
           <div className="space-x-6 text-gray-700">
             <a
               href="#"
@@ -54,19 +77,19 @@ export const Navbar: React.FC = () => {
               href="#"
               className="hover:text-indigo-600 transition duration-300 font-bold"
             >
-              About
+              Features
             </a>
             <a
               href="#"
               className="hover:text-indigo-600 transition duration-300 font-bold"
             >
-              Services
+              Pricing
             </a>
             <a
               href="#"
               className="hover:text-indigo-600 transition duration-300 font-bold"
             >
-              Contact
+              About Us
             </a>
           </div>
         </div>
@@ -75,7 +98,10 @@ export const Navbar: React.FC = () => {
   );
 };
 
-export const HeroSection: React.FC = () => {
+export const HeroSection: React.FC<{
+  scrollToLearnMore: () => void;
+  scrollToTherapyForm: () => void;
+}> = ({ scrollToLearnMore, scrollToTherapyForm }) => {
   return (
     <div className="hero min-h-screen">
       <div className="hero-content flex-col lg:flex-row items-center">
@@ -96,10 +122,16 @@ export const HeroSection: React.FC = () => {
             Saving valuable time for therapists.
           </p>
           <div className="space-x-4">
-            <button className="bg-white text-indigo-700 font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-50 transition duration-300">
+            <button
+              className="bg-white text-indigo-700 font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-50 transition duration-300"
+              onClick={scrollToTherapyForm}
+            >
               Get Started
             </button>
-            <button className="bg-indigo-700 text-white font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-600 transition duration-300">
+            <button
+              className="bg-indigo-700 text-white font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-600 transition duration-300"
+              onClick={scrollToLearnMore}
+            >
               Learn More
             </button>
           </div>
