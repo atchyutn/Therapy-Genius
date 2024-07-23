@@ -20,15 +20,9 @@ const HomePage: React.FC = () => {
       <GradientBackground>
         <Navbar />
         <div className="container mx-auto px-4 py-12 pt-0">
-          <HeroSection
-            scrollToLearnMore={() => scrollToSection(learnMoreRef)}
-            scrollToTherapyForm={() => scrollToSection(therapyFormRef)}
-          />
+          <HeroSection scrollToLearnMore={() => scrollToSection(learnMoreRef)} scrollToTherapyForm={() => scrollToSection(therapyFormRef)} />
           <div className="mt-16 md:mt-5">
-            <div
-              className="bg-white shadow-lg rounded-lg overflow-hidden"
-              ref={therapyFormRef}
-            >
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden" ref={therapyFormRef}>
               <TherapyForm />
             </div>
           </div>
@@ -46,9 +40,7 @@ const HomePage: React.FC = () => {
 
 export default HomePage;
 
-export const GradientBackground: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const GradientBackground: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <div className="relative min-h-screen">
       <div className="absolute inset-0 bg-gradient-to-r from-violet-200 to-pink-200 opacity-70" />
@@ -63,32 +55,18 @@ export const Navbar: React.FC = () => {
     <nav className="bg-opacity-80 backdrop-blur-md shadow-md sticky">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold text-indigo-700">
-            Report Genius
-          </div>
+          <div className="text-2xl font-bold text-indigo-700">Report Genius</div>
           <div className="space-x-6 text-gray-700">
-            <a
-              href="#"
-              className="hover:text-indigo-600 transition duration-300 font-bold"
-            >
+            <a href="#" className="hover:text-indigo-600 transition duration-300 font-bold">
               Home
             </a>
-            <a
-              href="#"
-              className="hover:text-indigo-600 transition duration-300 font-bold"
-            >
+            <a href="#" className="hover:text-indigo-600 transition duration-300 font-bold">
               Features
             </a>
-            <a
-              href="#"
-              className="hover:text-indigo-600 transition duration-300 font-bold"
-            >
+            <a href="#" className="hover:text-indigo-600 transition duration-300 font-bold">
               Pricing
             </a>
-            <a
-              href="#"
-              className="hover:text-indigo-600 transition duration-300 font-bold"
-            >
+            <a href="#" className="hover:text-indigo-600 transition duration-300 font-bold">
               About Us
             </a>
           </div>
@@ -98,10 +76,7 @@ export const Navbar: React.FC = () => {
   );
 };
 
-export const HeroSection: React.FC<{
-  scrollToLearnMore: () => void;
-  scrollToTherapyForm: () => void;
-}> = ({ scrollToLearnMore, scrollToTherapyForm }) => {
+export const HeroSection: React.FC<{ scrollToLearnMore: () => void, scrollToTherapyForm: () => void }> = ({ scrollToLearnMore, scrollToTherapyForm }) => {
   return (
     <div className="hero min-h-screen">
       <div className="hero-content flex-col lg:flex-row items-center">
@@ -117,9 +92,7 @@ export const HeroSection: React.FC<{
             AI-Powered Therapy Platform
           </h1>
           <p className="text-lg md:text-xl text-black mb-8">
-            Our AI-powered platform delivers tailored activities in seconds,
-            making therapy more effective and affordable for all families,
-            Saving valuable time for therapists.
+            Our AI-powered platform delivers tailored activities in seconds, making therapy more effective and affordable for all families, Saving valuable time for therapists.
           </p>
           <div className="space-x-4">
             <button

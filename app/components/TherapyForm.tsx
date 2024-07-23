@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import ActivitesLoader from "../../public/activities-loader.json";
 import Lottie from "lottie-react";
@@ -17,6 +17,45 @@ const TherapyForm: React.FC = () => {
   const [activities, setActivities] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = () => {
+    if (activities) {
+      const printContent = printRef.current?.innerHTML;
+      const printWindow = window.open("", "", "width=800,height=600");
+      if (printWindow && printContent) {
+        printWindow.document.write(`
+          <html>
+            <head>
+              <style>
+                @page { margin: 20mm; }
+                body::before {
+                  content: 'Your Header Content Here';
+                  display: block;
+                  text-align: center;
+                  font-size: 14px;
+                  margin-bottom: 10mm;
+                }
+                body::after {
+                  content: 'Your Footer Content Here';
+                  display: block;
+                  text-align: center;
+                  font-size: 14px;
+                  margin-top: 10mm;
+                }
+                body { margin: 0; }
+              </style>
+            </head>
+            <body>
+              ${printContent}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     setActivities(null);
@@ -167,7 +206,6 @@ const TherapyForm: React.FC = () => {
               disabled={loading}
             >
               {loading ? "Generating Activities..." : "Generate Activities"}
-              
             </button>
           </form>
         </div>
@@ -305,11 +343,27 @@ const TherapyForm: React.FC = () => {
 
           {activities && (
             <div className="">
-              <h2 className="text-xl font-bold mb-4">Suggested Activities:</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">Suggested Activities:</h2>
+                <button
+                  type="button"
+                  className="bg-indigo-700 text-white font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-600 transition duration-300"
+                  onClick={handleButtonClick}
+                >
+                  Print Activities
+                </button>
+              </div>
               <div
                 className="bg-gray-100 p-4 rounded"
                 dangerouslySetInnerHTML={{ __html: activities }}
               />
+
+              <div ref={printRef} className="hidden">
+                <div
+                  className="bg-gray-100 p-4 rounded"
+                  dangerouslySetInnerHTML={{ __html: activities ?? "" }}
+                />
+              </div>
             </div>
           )}
           {error && <p className="text-red-500 mt-4">{error}</p>}

@@ -7,7 +7,7 @@ const Benifits = () => (
       <div className="flex flex-col lg:flex-row items-center justify-between">
         <div className="lg:w-1/2 mb-10 lg:mb-0">
           <h2 className="font-bold text-4xl md:text-5xl lg:text-6xl text-indigo-600 mb-6">
-            Benifits
+            Benefits
           </h2>
           <h2 className="text-4xl font-extrabold text-gray-800 mb-6 leading-tight">
             Personalized Therapy Activities
