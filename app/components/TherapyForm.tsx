@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ActivitesLoader from "../../public/activities-loader.json";
+import Lottie from "lottie-react";
+
 
 interface ApiResponse {
   activities: string; // Changed from html to activities
@@ -75,11 +78,11 @@ const TherapyForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className=" bg-gradient-to-r from-violet-200 to-pink-200 p-8">
       <div className="mx-auto bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
         <div className="flex-shrink-0 pr-4 mb-6 md:mb-0">
           <h1 className="text-2xl font-bold mb-6">
-            Therapy Activity Suggestion
+            Enter Goals and Get Activities
           </h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -158,11 +161,12 @@ const TherapyForm: React.FC = () => {
               </button>
             </div>
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-indigo-700 text-white font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-600 transition duration-300 mt-4"
               type="submit"
               disabled={loading}
             >
-              {loading ? "Loading..." : "Get Activities"}
+              {loading ? "Generating Activities..." : "Generate Activities"}
+              
             </button>
           </form>
         </div>
@@ -183,10 +187,123 @@ const TherapyForm: React.FC = () => {
                 <div className="skeleton h-4 w-full"></div>
                 <div className="skeleton h-4 w-full"></div>
               </div>
+              {/* <Lottie
+                animationData={ActivitesLoader}
+                loop={true}
+                className="w-full h-auto max-w-lg"
+              /> */}
             </>
           )}
+          {!loading && !activities && (
+            <div className="">
+              <h2 className="text-xl font-bold mb-4">
+                How to Generate Therapy Activities:
+              </h2>
+              <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+                <li>
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5 text-indigo-600"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start mb-10 md:text-end">
+                    <div className="text-lg text-indigo-600 font-bold">
+                      1. Enter Patient Details
+                    </div>
+                    Provide the necessary information about the patient to
+                    tailor the activities effectively.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5 text-indigo-600"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end mb-10">
+                    <div className="text-lg text-indigo-600 font-bold">
+                      2. Select Therapy Type
+                    </div>
+                    Choose the type of therapy that suits the patient&apos;s
+                    needs from the available options.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5 text-indigo-600"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start mb-10 md:text-end">
+                    <div className="text-lg text-indigo-600 font-bold">
+                      3. Enter Therapy Goals
+                    </div>
+                    Define the specific goals for the therapy to guide the AI in
+                    generating relevant activities.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5 text-indigo-600"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end mb-10">
+                    <div className="text-lg text-indigo-600 font-bold">
+                      4. Submit to Generate Activities
+                    </div>
+                    Click submit to receive a list of activities tailored to the
+                    patient&apos;s goals and therapy type.
+                  </div>
+                </li>
+              </ul>
+            </div>
+          )}
+
           {activities && (
-            <div className="mt-6">
+            <div className="">
               <h2 className="text-xl font-bold mb-4">Suggested Activities:</h2>
               <div
                 className="bg-gray-100 p-4 rounded"
