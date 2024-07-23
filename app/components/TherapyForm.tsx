@@ -3,7 +3,6 @@ import axios from "axios";
 import ActivitesLoader from "../../public/activities-loader.json";
 import Lottie from "lottie-react";
 
-
 interface ApiResponse {
   activities: string; // Changed from html to activities
 }
@@ -18,44 +17,101 @@ const TherapyForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
+  const editableRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = () => {
     if (activities) {
-      const printContent = printRef.current?.innerHTML;
+      const printContent = editableRef.current?.innerHTML;
       const printWindow = window.open("", "", "width=800,height=600");
       if (printWindow && printContent) {
         printWindow.document.write(`
-          <html>
-            <head>
-              <style>
+        <html>
+          <head>
+            <style>
+              @media print {
                 @page { margin: 20mm; }
+                body { 
+                  -webkit-print-color-adjust: exact; 
+                  margin: 0; 
+                }
                 body::before {
-                  content: 'Your Header Content Here';
+                  content: '';
                   display: block;
-                  text-align: center;
-                  font-size: 14px;
-                  margin-bottom: 10mm;
+                  height: 20mm; /* space for header */
                 }
                 body::after {
-                  content: 'Your Footer Content Here';
+                  content: '';
                   display: block;
-                  text-align: center;
-                  font-size: 14px;
-                  margin-top: 10mm;
+                  height: 20mm; /* space for footer */
                 }
-                body { margin: 0; }
-              </style>
-            </head>
-            <body>
-              ${printContent}
-            </body>
-          </html>
-        `);
+                header {
+                  position: fixed;
+                  top: 0;
+                  width: 100%;
+                  height: 20mm;
+                  background: white;
+                  text-align: center;
+                  padding: 10px;
+                  border-bottom: 1px solid #ccc;
+                }
+                footer {
+                  position: fixed;
+                  bottom: 0;
+                  width: 100%;
+                  height: 20mm;
+                  background: white;
+                  text-align: center;
+                  padding: 10px;
+                  border-top: 1px solid #ccc;
+                }
+              }
+              .print-header, .print-footer {
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+              }
+              .print-header {
+                border-bottom: 1px solid #ccc;
+              }
+              .print-footer {
+                border-top: 1px solid #ccc;
+              }
+              .company-info {
+                display: flex;
+                justify-content: space-between;
+              }
+              .company-info div {
+                flex: 1;
+              }
+            </style>
+          </head>
+          <body>
+            <header class="print-header">
+              <div class="company-info">
+                <div>Report Genius</div>
+                <div>123 Therapy St, Wellness City</div>
+                <div>+123-456-7890</div>
+              </div>
+            </header>
+            <br />
+            ${printContent}
+            <br />  
+            <footer class="print-footer">
+              <div class="company-info">
+                <div>Report Genius</div>
+                <div>Contact us: info@reportgenius.com</div>
+                <div>+123-456-7890</div>
+              </div>
+            </footer>
+          </body>
+        </html>
+      `);
         printWindow.document.close();
         printWindow.print();
       }
     }
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     setActivities(null);
@@ -118,7 +174,7 @@ const TherapyForm: React.FC = () => {
   };
 
   return (
-    <div className=" bg-gradient-to-r from-violet-200 to-pink-200 p-8">
+    <div className="bg-gradient-to-r from-violet-200 to-pink-200 p-8">
       <div className="mx-auto bg-white p-6 rounded-lg shadow-lg flex flex-col md:flex-row">
         <div className="flex-shrink-0 pr-4 mb-6 md:mb-0">
           <h1 className="text-2xl font-bold mb-6">
@@ -213,19 +269,6 @@ const TherapyForm: React.FC = () => {
         <div className="flex-1 pl-4">
           {loading && (
             <>
-              {/* <div className="flex w-auto flex-col gap-4">
-                <div className="skeleton h-32 w-full"></div>
-                <div className="skeleton h-4 w-28"></div>
-                <div className="skeleton h-4 w-full"></div>
-                <div className="skeleton h-4 w-full"></div>
-              </div>
-              <br></br>
-              <div className="flex w-auto flex-col gap-4">
-                <div className="skeleton h-32 w-full"></div>
-                <div className="skeleton h-4 w-28"></div>
-                <div className="skeleton h-4 w-full"></div>
-                <div className="skeleton h-4 w-full"></div>
-              </div> */}
               <Lottie
                 animationData={ActivitesLoader}
                 loop={true}
@@ -264,32 +307,6 @@ const TherapyForm: React.FC = () => {
                   <hr />
                 </li>
                 <li>
-                  <hr />
-                  <div className="timeline-middle">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="h-5 w-5 text-indigo-600"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div className="timeline-end mb-10">
-                    <div className="text-lg text-indigo-600 font-bold">
-                      2. Select Therapy Type
-                    </div>
-                    Choose the type of therapy that suits the patient&apos;s
-                    needs from the available options.
-                  </div>
-                  <hr />
-                </li>
-                <li>
-                  <hr />
                   <div className="timeline-middle">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -306,15 +323,14 @@ const TherapyForm: React.FC = () => {
                   </div>
                   <div className="timeline-start mb-10 md:text-end">
                     <div className="text-lg text-indigo-600 font-bold">
-                      3. Enter Therapy Goals
+                      2. Select Therapy Type
                     </div>
-                    Define the specific goals for the therapy to guide the AI in
-                    generating relevant activities.
+                    Choose the appropriate therapy type based on the patient's
+                    needs.
                   </div>
                   <hr />
                 </li>
                 <li>
-                  <hr />
                   <div className="timeline-middle">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +345,31 @@ const TherapyForm: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-end mb-10">
+                  <div className="timeline-start mb-10 md:text-end">
+                    <div className="text-lg text-indigo-600 font-bold">
+                      3. Add Therapy Goals
+                    </div>
+                    Enter specific therapy goals to generate customized
+                    activities.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5 text-indigo-600"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start md:text-end">
                     <div className="text-lg text-indigo-600 font-bold">
                       4. Submit to Generate Activities
                     </div>
@@ -340,33 +380,30 @@ const TherapyForm: React.FC = () => {
               </ul>
             </div>
           )}
-
-          {activities && (
-            <div className="">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Suggested Activities:</h2>
-                <button
-                  type="button"
-                  className="bg-indigo-700 text-white font-semibold py-3 px-6 md:py-3 md:px-8 rounded-lg shadow-md hover:bg-indigo-600 transition duration-300"
-                  onClick={handleButtonClick}
-                >
-                  Print Activities
-                </button>
-              </div>
-              <div
-                className="bg-gray-100 p-4 rounded"
-                dangerouslySetInnerHTML={{ __html: activities }}
-              />
-
-              <div ref={printRef} className="hidden">
-                <div
-                  className="bg-gray-100 p-4 rounded"
-                  dangerouslySetInnerHTML={{ __html: activities ?? "" }}
-                />
-              </div>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+              <strong className="font-bold">Error!</strong>
+              <span className="block sm:inline">{error}</span>
             </div>
           )}
-          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {!loading && activities && (
+            <div ref={printRef}>
+              <h2 className="text-2xl font-bold mb-4">
+                Generated Therapy Activities:
+              </h2>
+              <div
+                ref={editableRef}
+                contentEditable
+                dangerouslySetInnerHTML={{ __html: activities }}
+              />
+              <button
+                onClick={handleButtonClick}
+                className="bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-300 mt-4 ml-auto"
+              >
+                Print Activities
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
