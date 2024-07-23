@@ -1,0 +1,12 @@
+// src/assets/kid-friendly-pattern.svg
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="30" cy="30" r="20" fill="#F9C74F" />
+  <circle cx="170" cy="30" r="20" fill="#F9C74F" />
+  <circle cx="30" cy="170" r="20" fill="#F9C74F" />
+  <circle cx="170" cy="170" r="20" fill="#F9C74F" />
+  <rect x="70" y="70" width="60" height="60" fill="#90E0EF" />
+  <rect x="120" y="120" width="60" height="60" fill="#90E0EF" />
+  <path d="M 100 10 L 120 50 L 80 50 Z" fill="#F28D35" />
+  <path d="M 100 190 L 120 150 L 80 150 Z" fill="#F28D35" />
+</svg>
