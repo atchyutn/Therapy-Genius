@@ -4,7 +4,7 @@ export const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <div className="text-2xl font-bold text-indigo-700">
-            Report Genius
+            Therapy Genius
           </div>
           <div className="space-x-6 text-gray-700">
             <a

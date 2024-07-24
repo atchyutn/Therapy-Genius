@@ -17,7 +17,9 @@ const TherapyForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
   const editableRef = useRef<HTMLDivElement>(null);
+
 
   const handleButtonClick = () => {
     if (activities) {
@@ -88,7 +90,7 @@ const TherapyForm: React.FC = () => {
           <body>
             <header class="print-header">
               <div class="company-info">
-                <div>Report Genius</div>
+                <div>Therapy Genius</div>
                 <div>123 Therapy St, Wellness City</div>
                 <div>+123-456-7890</div>
               </div>
@@ -98,7 +100,7 @@ const TherapyForm: React.FC = () => {
             <br />  
             <footer class="print-footer">
               <div class="company-info">
-                <div>Report Genius</div>
+                <div>Therapy Genius</div>
                 <div>Contact us: info@reportgenius.com</div>
                 <div>+123-456-7890</div>
               </div>
@@ -112,6 +114,17 @@ const TherapyForm: React.FC = () => {
     }
   };
 
+  const handleEditClick = () => {
+    setIsEditable(true);
+    if (editableRef.current) {
+      editableRef.current.focus();
+    }
+  };
+
+  const handleSaveClick = () => {
+    setIsEditable(false);
+    // Add any save logic if needed
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     setActivities(null);
@@ -321,12 +334,12 @@ const TherapyForm: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-start mb-10 md:text-end">
+                  <div className="timeline-end mb-10 md:text-end">
                     <div className="text-lg text-indigo-600 font-bold">
                       2. Select Therapy Type
                     </div>
-                    Choose the appropriate therapy type based on the patient's
-                    needs.
+                    Choose the appropriate therapy type based on the
+                    patient&apos;s needs.
                   </div>
                   <hr />
                 </li>
@@ -369,7 +382,7 @@ const TherapyForm: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-start md:text-end">
+                  <div className="timeline-end md:text-end">
                     <div className="text-lg text-indigo-600 font-bold">
                       4. Submit to Generate Activities
                     </div>
@@ -393,15 +406,39 @@ const TherapyForm: React.FC = () => {
               </h2>
               <div
                 ref={editableRef}
-                contentEditable
+                className={`mt-4 ${
+                  isEditable ? "border border-indigo-600 p-2" : ""
+                }`}
+                contentEditable={isEditable}
+                suppressContentEditableWarning={true}
                 dangerouslySetInnerHTML={{ __html: activities }}
               />
-              <button
-                onClick={handleButtonClick}
-                className="bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-300 mt-4 ml-auto"
-              >
-                Print Activities
-              </button>
+              <div className="flex justify-end space-x-2 mt-4">
+                <button
+                  onClick={handleButtonClick}
+                  className="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-indigo-200 transition duration-300"
+                >
+                  Print Activities
+                </button>
+                <button
+                  className={`text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ${
+                    isEditable
+                      ? "bg-red-700 hover:bg-red-600"
+                      : "bg-blue-700 hover:bg-blue-600"
+                  }`}
+                  onClick={() => setIsEditable(!isEditable)}
+                >
+                  {isEditable ? "Cancel Edit" : "Edit Report"}
+                </button>
+                {isEditable && (
+                  <button
+                    className="bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-300"
+                    onClick={handleSaveClick}
+                  >
+                    Save Report
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>

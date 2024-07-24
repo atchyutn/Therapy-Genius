@@ -15,11 +15,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">Report Genius</h3>
+            <h3 className="text-2xl font-bold mb-4">Therapy Genius</h3>
             <p className="mb-4">
-              Revolutionizing report writing with AI-powered solutions.
+              Revolutionizing report writing for therapy with AI-powered solutions.
             </p>
-            <p>© {currentYear} ReportGenius. All rights reserved.</p>
+            <p>© {currentYear} Therapy Genius. All rights reserved.</p>
           </div>
 
           {/* Quick Links */}
@@ -32,9 +32,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-pink-300 transition-colors">
+                {/* <a href="#" className="hover:text-pink-300 transition-colors">
                   Features
-                </a>
+                </a> */}
               </li>
               <li>
                 <a href="#" className="hover:text-pink-300 transition-colors">
@@ -54,7 +54,7 @@ const Footer = () => {
             <h4 className="text-xl font-semibold mb-4">Contact Us</h4>
             <p className="mb-2">123 AI Street, Tech City, 12345</p>
             <p className="mb-2">Phone: (123) 456-7890</p>
-            <p>Email: info@reportgenius.com</p>
+            <p>Email: info@therapygenius.tech</p>
           </div>
 
           {/* Newsletter Signup */}
