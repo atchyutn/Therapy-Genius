@@ -79,6 +79,9 @@ async function addMessageToThread(threadId: string, body: RequestBody) {
 }
 
 async function runAssistant(threadId: string) {
+  if (!ASSISTANT_ID) {
+    throw new Error("ASSISTANT_ID is not defined");
+  }
   return await openai.beta.threads.runs.create(threadId, {
     assistant_id: ASSISTANT_ID,
   });
