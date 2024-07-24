@@ -1,35 +1,40 @@
-export const Navbar: React.FC = () => {
+const Navbar: React.FC = () => {
   return (
     <nav className="bg-opacity-80 backdrop-blur-md shadow-md sticky">
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <div className="text-2xl font-bold text-indigo-700">
-            Therapy Genius
+            <a
+              href="/"
+              className="hover:text-indigo-600 transition duration-300 font-bold"
+            >
+              Therapy Genius
+            </a>
           </div>
           <div className="space-x-6 text-gray-700">
             <a
-              href="#"
+              href="/"
               className="hover:text-indigo-600 transition duration-300 font-bold"
             >
               Home
             </a>
-            <a
+            {/* <a
               href="#"
               className="hover:text-indigo-600 transition duration-300 font-bold"
             >
-              About
+              Features
+            </a> */}
+            <a
+              href="/pricing"
+              className="hover:text-indigo-600 transition duration-300 font-bold"
+            >
+              Pricing
             </a>
             <a
-              href="#"
+              href="/about-us"
               className="hover:text-indigo-600 transition duration-300 font-bold"
             >
-              Services
-            </a>
-            <a
-              href="#"
-              className="hover:text-indigo-600 transition duration-300 font-bold"
-            >
-              Contact
+              About Us
             </a>
           </div>
         </div>
@@ -37,3 +42,5 @@ export const Navbar: React.FC = () => {
     </nav>
   );
 };
+
+export default Navbar;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Benifits = () => (
+const Benefits = () => (
   <div className="bg-gradient-to-r from-violet-200 to-pink-200 rounded-3xl overflow-hidden shadow-lg p-8">
     <div className="container mx-auto px-6 py-16 max-w-7xl">
       <div className="flex flex-col lg:flex-row items-center justify-between">
@@ -82,4 +82,4 @@ const Benifits = () => (
   </div>
 );
 
-export default Benifits;
+export default Benefits;
