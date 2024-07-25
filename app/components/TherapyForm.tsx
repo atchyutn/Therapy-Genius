@@ -14,9 +14,9 @@ interface PredefinedGoals {
 }
 
 const TherapyForm: React.FC = () => {
-  const [name, setName] = useState("kid");
-  const [age, setAge] = useState("6");
-  const [gender, setGender] = useState("Male");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
   const [therapyType, setTherapyType] = useState("");
   const [goalList, setGoalList] = useState<string[]>([]);
   const [customGoal, setCustomGoal] = useState("");
