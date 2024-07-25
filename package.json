@@ -11,6 +11,7 @@
   "dependencies": {
     "@heroicons/react": "^2.1.5",
     "@tailwindcss/typography": "^0.5.13",
+    "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "lottie-react": "^2.4.0",
