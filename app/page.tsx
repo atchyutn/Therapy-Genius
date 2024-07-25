@@ -1,4 +1,5 @@
 "use client";
+export const runtime = "edge";
 import React, { useRef } from "react";
 import TherapyForm from "./components/TherapyForm";
 import LearnMore from "./components/LearnMore";
