@@ -91,7 +91,7 @@ const ButtonAction: React.FC<ButtonActionProps> = ({ loading, activities }) => {
               <footer class="print-footer">
                 <div class="company-info">
                   <div>Therapy Genius</div>
-                  <div>Contact us: info@reportgenius.com</div>
+                  <div>Contact us: info@reportgenius.tech</div>
                   <div>+123-456-7890</div>
                 </div>
               </footer>
