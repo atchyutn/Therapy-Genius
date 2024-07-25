@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import * as dotenv from "dotenv";
