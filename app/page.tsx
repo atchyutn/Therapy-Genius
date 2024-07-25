@@ -10,6 +10,12 @@ import Navbar from "./components/Navbar";
 import GradientBackground from "./components/GradientBackground";
 import HeroSection from "./components/HeroSection";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import ReactGA from "react-ga";
+
+ReactGA.initialize("G-ECF4TDF3NB");
+
+// To Report Page View
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const HomePage: React.FC = () => {
   const learnMoreRef = useRef<HTMLDivElement>(null);
@@ -21,6 +27,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      
       <SpeedInsights />
       <GradientBackground>
         <Navbar />
