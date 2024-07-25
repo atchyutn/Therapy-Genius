@@ -430,14 +430,14 @@ const TherapyForm: React.FC = () => {
                 >
                   {isEditable ? "Cancel Edit" : "Edit Report"}
                 </button>
-                {isEditable && (
+                {/* {isEditable && (
                   <button
                     className="bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-300"
                     onClick={handleSaveClick}
                   >
                     Save Report
                   </button>
-                )}
+                )} */}
               </div>
             </div>
           )}
