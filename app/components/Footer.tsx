@@ -17,7 +17,8 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4">Therapy Genius</h3>
             <p className="mb-4">
-              Revolutionizing report writing for therapy with AI-powered solutions.
+              Revolutionizing report writing for therapy with AI-powered
+              solutions.
             </p>
             <p>© {currentYear} Therapy Genius. All rights reserved.</p>
           </div>
@@ -27,7 +28,7 @@ const Footer = () => {
             <h4 className="text-xl font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:text-pink-300 transition-colors">
+                <a href="/" className="hover:text-pink-300 transition-colors">
                   Home
                 </a>
               </li>
@@ -37,12 +38,18 @@ const Footer = () => {
                 </a> */}
               </li>
               <li>
-                <a href="#" className="hover:text-pink-300 transition-colors">
+                <a
+                  href="/pricing"
+                  className="hover:text-pink-300 transition-colors"
+                >
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-pink-300 transition-colors">
+                <a
+                  href="/about-us"
+                  className="hover:text-pink-300 transition-colors"
+                >
                   About Us
                 </a>
               </li>

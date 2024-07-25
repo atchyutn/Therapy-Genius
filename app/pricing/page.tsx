@@ -1,6 +1,7 @@
 // /app/pricing/page.tsx
 import React from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const pricingPlans = [
   {
@@ -41,7 +42,7 @@ const pricingPlans = [
 const Pricing = () => (
   <>
     <Navbar />
-    <div className="bg-gradient-to-r from-violet-200 to-pink-200 overflow-hidden shadow-lg p-8">
+    <div className="bg-gradient-to-r from-violet-200 to-pink-200 overflow-hidden shadow-lg px-20 py-10">
       <div className="container mx-auto px-6 py-16 max-w-7xl">
         <h2 className="text-center font-bold text-4xl md:text-5xl lg:text-6xl text-indigo-600 mb-6">
           Pricing Plans
@@ -102,6 +103,7 @@ const Pricing = () => (
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   </>
 );
